@@ -11,7 +11,7 @@ public class Space {
         this.row = row;
         this.column = column;
     }
-    public char getType() {
+    public char getSymbol() {
         return letter;
     }
     public boolean isBlocked() {
