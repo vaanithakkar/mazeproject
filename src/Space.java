@@ -1,60 +1,73 @@
 public class Space {
     private String letter;
-    private int row;
-    private int column;
-    private Space up;
-    private Space down;
-    private Space left;
-    private Space right;
-    private Space[] neighbors;
-    private int neighborCount;
-    public Space(String letter, int row, int column) {
-        this.letter = letter;
-        this.row = row;
-        this.column = column;
 
-        neighbors = new Space[4];
-        neighborCount = 0;
+    private Neighbor[] neighbors;
+    private int neighborCount;
+
+    private boolean visited;
+    private Space previous;
+
+    public class Neighbor{
+        Space node;
+        int distance;
+
+        public Neighbor (Space node, int distance){
+            this.node = node;
+            this.distance = distance;
+        }
     }
-    public String getType() {
+
+
+    public Space(String letter) {
+        this.letter = letter;
+
+        neighbors = new Neighbor[4];
+        neighborCount = 0;
+
+        visited = false;
+        previous = null;
+    }
+
+    public String getLetter() {
         return letter;
     }
-    public boolean isBlocked() {
-        return letter == "X" || letter == "H";
-    }
-    public void addNeighbor(Space s){
-        if (neighborCount<4){
-            neighbors[neighborCount++] = s;
+
+    public void addNeighbor(Space s, int distance){
+        if (neighborCount == neighbors.length){
+            Neighbor[]bigger = new Neighbor[neighbors.length * 2];
+
+            for(int i = 0; i < neighborCount; i++){
+                bigger[i] = neighbors[i];
+            }
+
+            neighbors = bigger;
         }
-    };
-    public void up(Space s){
-        up = s;
+
+        neighbors[neighborCount++] = new Neighbor (s, distance);
     }
-    public void down(Space s){
-        down = s;
+
+    public Neighbor[] getNeighbors(){
+        return neighbors;
     }
-    public void left(Space s){
-        left = s;
+
+    public int getNeighborCount(){
+        return neighborCount;
     }
-    public void right(Space s){
-        right = s;
+
+    public boolean isVisited(){
+        return visited;
     }
-    public Space goUp(){
-        return up;
+
+    public void setVisited(boolean v){
+        visited = v;
     }
-    public Space goDown(){
-        return down;
+
+    public Space getPrevious(){
+        return previous;
     }
-    public Space goLeft(){
-        return left;
+
+    public void setPrevious(Space s){
+        previous = s;
     }
-    public Space goRight(){
-        return right;
-    }
-    public int getRow(){
-        return row;
-    }
-    public int getColumn(){
-        return column;
-    }
+
 }
